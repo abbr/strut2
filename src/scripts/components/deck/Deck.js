@@ -20,7 +20,6 @@ The raw format of a deck:
 
 var Slide = require('./Slide');
 var _ = require('lodash');
-var rx = require('rx');
 
 var defaultConfig = {
 	slideWidth: 900,

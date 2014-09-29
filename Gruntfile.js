@@ -5,7 +5,8 @@ var mountFolder = function (connect, dir) {
 };
 
 var webpackDistConfig = require('./webpack.dist.config.js'),
-    webpackDevConfig = require('./webpack.config.js');
+    webpackDevConfig = require('./webpack.config.js'),
+    webpackExperimentConfig = require('./webpack.experiment.config.js');
 
 module.exports = function (grunt) {
   // Let *load-grunt-tasks* require everything
@@ -38,6 +39,15 @@ module.exports = function (grunt) {
       }
     },
 
+    'webpack-experiment-server': {
+      options: {
+        port: 8000,
+        webpack: webpackExperimentConfig,
+        publicPath: '/',
+        contentBase: './<%= pkg.src %>/',
+      }
+    },
+
     connect: {
       options: {
         port: 8000
@@ -61,6 +71,9 @@ module.exports = function (grunt) {
       },
       dev: {
         path: 'http://localhost:<%= connect.options.port %>/webpack-dev-server/'
+      },
+      experiment: {
+        path: 'http://localhost:<%= connect.options.port %>/webpack-experiment-server/'
       },
       dist: {
         path: 'http://localhost:<%= connect.options.port %>/'
@@ -108,6 +121,13 @@ module.exports = function (grunt) {
     grunt.task.run([
       'open:dev',
       'webpack-dev-server'
+    ]);
+  });
+
+  grunt.registerTask('experiment', function(target) {
+    grunt.task.run([
+      'open:experiment',
+      'webpack-experiment-server'
     ]);
   });
 

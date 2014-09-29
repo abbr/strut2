@@ -45,6 +45,10 @@ module.exports = function (grunt) {
         webpack: webpackExperimentConfig,
         publicPath: '/',
         contentBase: './<%= pkg.src %>/',
+      },
+
+      start: {
+        keepAlive: true,
       }
     },
 

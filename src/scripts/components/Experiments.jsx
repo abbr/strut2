@@ -8,29 +8,16 @@ window.log.config = {
 	debug: true
 };
 
-require('components/Features');
-
 var React = require('react/addons');
 
 require('bootstrap.css');
 require('main.css');
 
-var subViews = {
-	editor: require('components/editor/Editor.jsx')
-};
-
 var App = React.createClass({
-	getInitialState: function() {
-		return {
-			view: 'editor'
-		};
-	},
-
 	render: function() {
-		var CurrentView = subViews[this.state.view];
 		return (
 			<div>
-				<CurrentView />
+				Experiment!
 			</div>
 		);
 	}

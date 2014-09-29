@@ -12,7 +12,7 @@ module.exports = {
   devtool: false,
   
   resolve: common.resolve,
-  entry: common.entry,
+  entry: './src/scripts/components/experiments.jsx',
 
   stats: {
     colors: true,

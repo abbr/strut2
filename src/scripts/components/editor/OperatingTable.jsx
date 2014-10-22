@@ -64,8 +64,8 @@ var OperatingTable = React.createClass({
 	},
 
 	renderComponent: function(component) {
-		var node = ComponentViewFactory(component);
-		return <node model={component} key={component.key} />
+		var Node = ComponentViewFactory(component);
+		return <Node model={component} key={component.key} />
 	},
 
 	render: function() {

@@ -28,7 +28,7 @@ var DeltaDragControl = React.createClass({
 		<div className={this.props.className}
 			onMouseDown={this.onMouseDown}>
 			{this.props.children}
-		</div>)
+		</div>);
 	}
 });
 

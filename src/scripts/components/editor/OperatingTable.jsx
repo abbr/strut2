@@ -35,17 +35,22 @@ var OperatingTable = React.createClass({
 		var leftOffset = (width - slideWidth * scale) / 2;
 		var topOffset = (height - slideHeight * scale) / 2;
 
-		return {
-			transform: 'scale(' + scale + ')',
-			marginLeft: leftOffset + 'px',
-			width: slideWidth,
-			height: slideHeight
-		};
+		return [
+			scale,
+			{
+				transform: 'scale(' + scale + ')',
+				marginLeft: leftOffset + 'px',
+				width: slideWidth,
+				height: slideHeight
+			}
+		];
 	},
 
 	_resized: function() {
+		var style = this._computeOtsSquare();
 		this.setState({
-			otsStyle: this._computeOtsSquare()
+			otsStyle: style[1],
+			scale: style[0]
 		});
 	},
 
@@ -65,7 +70,13 @@ var OperatingTable = React.createClass({
 
 	renderComponent: function(component) {
 		var Node = ComponentViewFactory(component);
-		return <Node model={component} key={component.key} />
+		return (
+			<Node
+				model={component}
+				key={component.key}
+				containerScale={this.state.scale}
+			/>
+		)
 	},
 
 	render: function() {

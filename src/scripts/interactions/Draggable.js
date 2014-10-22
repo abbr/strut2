@@ -25,8 +25,7 @@ module.exports = {
     return {
       top: this.props.top,
       left: this.props.left,
-      dragging: false,
-      rel: null // position relative to the cursor
+      dragging: false
     };
   },
 
@@ -46,10 +45,8 @@ module.exports = {
 
     this.setState({
       dragging: true,
-      rel: {
-        left: e.pageX - pos.left,
-        top: e.pageY - pos.top
-      },
+      oleft: pos.left,
+      otop: pos.top,
       ox: e.pageX,
       oy: e.pageY
     });
@@ -66,14 +63,15 @@ module.exports = {
 
   onMouseMove: function (e) {
     if (!this.state.dragging) return;
+    var scale = this.props.containerScale || 1;
 
-    var dx = e.pageX - this.state.ox;
-    var dy = e.pageY - this.state.oy;
+    var dx = (e.pageX - this.state.ox) / scale;
+    var dy = (e.pageY - this.state.oy) / scale;
 
     if (!this._doesntDragSelf) {
       this.setState({
-        left: e.pageX - this.state.rel.left,
-        top: e.pageY - this.state.rel.top
+        left: this.state.oleft + dx,
+        top: this.state.otop + dy
       });
     }
 

@@ -1,0 +1,5 @@
+/*
+Shows control points and ant box around its content.
+Events from control points get bubbled up to outside event handlers instead
+of being handled by the box itself.
+*/

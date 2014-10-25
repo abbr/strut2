@@ -8,6 +8,7 @@ window.log.config = {
 	debug: true
 };
 
+require('polyfills');
 require('components/Features');
 
 var React = require('react/addons');

@@ -5,10 +5,38 @@
 
 var React = require('react/addons');
 var DraggableElement = require('widgets/DraggableElement.jsx');
-var ResizableBox = require('widgets/ResizableBox.jsx');
+// var ResizableBox = require('widgets/ResizableBox.jsx');
 require('components/SlideComps.css');
 
 var FreeForm = React.createClass({
+	componentWillMount: function() {
+		this.props.model.on('change', this.onModelUpdated);
+	},
+
+	onBoxUpdated: function() {
+		// Set on the model props
+	},
+
+	onModelUpdated: function() {
+		// re-render
+		this.forceUpdate();
+	},
+
+	onDrag: function(e) {
+		this.props.model.updateStyle(e);
+		this.props.model.trigger('change');
+	},
+
+	shouldComponentUpdate: function() {
+		return false;
+	},
+
+	componentDidMount: function() {
+		// figure out or size
+		// If it isn't set on the model already, compute it from the rendered node
+		// and set it on the model
+	},
+
 	render: function() {	
 		var model = this.props.model;
 		// model has all the attributes of the node on it... we should pull
@@ -26,6 +54,9 @@ var FreeForm = React.createClass({
 
 		return (
 			<DraggableElement
+				style={model.style}
+				doesntDragSelf={true}
+				onDrag={this.onDrag}
 				className="strt-slide-comp"
 				containerScale={this.props.containerScale}
 				dangerouslySetInnerHTML={{__html: model.content}}

@@ -14,20 +14,22 @@ var DraggableElement = React.createClass({
 
   mixins: [Draggable],
   render: function() {
-    var style = this.props.style || {};
-    delete this.props.style;
+    var style = this.props.style;
+    if (!this.props.doesntDragSelf) {
+      style = this.props.style || {};
 
-    if (this.props.vert) {
-      style.top = this.state.top;
-    }
+      if (this.props.vert) {
+        style.top = this.state.top;
+      }
 
-    if (this.props.horiz) {
-      style.left = this.state.left;
-    }
+      if (this.props.horiz) {
+        style.left = this.state.left;
+      }
 
-    if (!this.props.vert && !this.props.horiz) {
-      style.top = this.state.top;
-      style.left = this.state.left;
+      if (!this.props.vert && !this.props.horiz) {
+        style.top = this.state.top;
+        style.left = this.state.left;
+      }
     }
 
     return (

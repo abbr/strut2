@@ -23,60 +23,51 @@ var resizeDirections = [
 var FreeFormBox = React.createClass({
 	mixins: [Draggable, Resizable],
 
-	getDefaultProps: function() {
-		return {
-			width: 0,
-			height: 0
-		}
-	},
-
 	onDrag: function(e) {
 		if (this.props.onChange) {
 			this.props.onChange({
-				left: this.state.left,
-				top: this.state.top,
-				width: this.state.width,
-				height: this.state.height
+				left: e.left,
+				top: e.top,
+				width: this.props.style.width,
+				height: this.props.style.height
 			});
 		}
 	},
 
 	onResize: function(e) {
-		this.onDrag();
+		if (this.props.onChange) {
+			this.props.onChange({
+				left: e.left != null ? e.left : this.props.style.left,
+				top: e.top != null ? e.top : this.props.style.top,
+				width: e.width != null ? e.width : this.props.style.width,
+				height: e.height != null ? e.height : this.props.style.height
+			});
+		}
 	},
 
-	getInitialState: function() {
-		return {
-			width: this.props.width,
-			height: this.props.height
-		};
+	_renderResizeControl: function(d) {
+		return (
+			<ResizeControl
+				key={d}
+				onDeltaDrag={this.onDeltaDrag}
+				onDeltaDragStart={this.onDeltaDragStart}
+				direction={d}
+				className={"wdgt-resize-point wdgt-" + d} />
+		);
 	},
 
 	render: function() {
-		var resizeControls = resizeDirections.map(function(d) {
-			return (
-				<ResizeControl
-					key={d}
-					onDeltaDrag={this.onDeltaDrag}
-					onDeltaDragStart={this.onDeltaDragStart}
-					direction={d}
-					className={"wdgt-resize-point wdgt-" + d} />
-			);
-		}, this);
+		var resizeControls = resizeDirections.map(this._renderResizeControl);
 
 		return (
 			<div
 				onMouseDown={this.onMouseDown}
 				className="wdgt-crop-overlay"
-				style={{
-					top: this.state.top + 'px',
-					left: this.state.left + 'px',
-					width: this.state.width + 'px',
-					height: this.state.height + 'px'
-				}}>
+				style={this.props.style}>
 				<div className="wdgt-grid-dashed-h" />
 				<div className="wdgt-grid-dashed-v" />
 				{resizeControls}
+				{this.props.children}
 			</div>
 		);
 	}

@@ -35,8 +35,8 @@ module.exports = {
 
     var computedStyle = window.getComputedStyle(this.getDOMNode());
     var pos = {
-      top: parseInt(computedStyle.top, 10),
-      left: parseInt(computedStyle.left, 10)
+      top: parseInt(computedStyle.top, 10) || 0,
+      left: parseInt(computedStyle.left, 10) || 0
     };
 
     if (this.onDragStart) {
@@ -68,7 +68,7 @@ module.exports = {
     var dx = (e.pageX - this.state.ox) / scale;
     var dy = (e.pageY - this.state.oy) / scale;
 
-    if (!this._doesntDragSelf) {
+    if (!this.props.doesntDragSelf) {
       this.setState({
         left: this.state.oleft + dx,
         top: this.state.otop + dy
@@ -77,8 +77,8 @@ module.exports = {
 
     if (this.onDrag) {
       this.onDrag({
-        left: this.state.left,
-        top: this.state.top,
+        left: this.state.oleft + dx,
+        top: this.state.otop + dy,
         dx: dx,
         dy: dy
       });

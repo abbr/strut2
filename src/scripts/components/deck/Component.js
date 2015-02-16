@@ -7,6 +7,7 @@ var _ = require('lodash');
 var key = 0;
 function Component(node, options) {
 	this.key = ++key;
+	_.extend(this, Events);
 	if (typeof node === 'string') {
 		options = options || {};
 		this.nodeName = node;
@@ -28,12 +29,12 @@ Component.prototype = {
 
 	},
 
-	updateStyle: function() {
-
+	updateStyle: function(newStyle) {
+		_.assign(this.style, newStyle);
 	},
 
-	replaceStyle: function() {
-
+	replaceStyle: function(newStyle) {
+		this.style = newStyle;
 	},
 
 	replaceContent: function() {

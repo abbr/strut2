@@ -27,7 +27,7 @@
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.10.9",
     "grunt-karma": "~0.6.2",
-    "karma-webpack-plugin": "~1.0.0",
+    "karma-webpack": "~1.0.0",
     "webpack-dev-server": "~1.2.4",
     "grunt-open": "~0.2.3",
     "jshint-loader": "~0.6.0",

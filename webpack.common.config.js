@@ -18,10 +18,8 @@ module.exports = {
     }, {
       test: /\.png$/,
       loader: 'url-loader?limit=10000&mimetype=image/png'
-    }, {
-      test: /\.jsx$/,
-      loader: 'jsx-loader'
     },
+    { test: /\.js(x?)$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime'},
     { test: /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
     { test: /\.ttf$/,    loader: "file-loader" },
     { test: /\.eot$/,    loader: "file-loader" },
@@ -29,9 +27,6 @@ module.exports = {
   },
 
   resolve: {
-    alias: {
-      'rx': 'rx/dist/rx.lite'
-    },
     root: __dirname + '/src',
     modulesDirectories: ['scripts', 'styles', 'node_modules']
   },

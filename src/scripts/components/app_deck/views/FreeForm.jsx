@@ -4,13 +4,16 @@
 'use strict';
 
 var React = require('react/addons');
-var DraggableElement = require('widgets/DraggableElement.jsx');
-// var ResizableBox = require('widgets/ResizableBox.jsx');
+var FreeFormBox = require('widgets/FreeFormBox.jsx');
 require('components/SlideComps.css');
 
 var FreeForm = React.createClass({
 	componentWillMount: function() {
-		this.props.model.on('change', this.onModelUpdated);
+		this.props.model.on('change', this.onModelUpdated, this);
+	},
+
+	componentWillUnmount: function() {
+		this.props.model.off(null, null, this);
 	},
 
 	onBoxUpdated: function() {
@@ -22,7 +25,7 @@ var FreeForm = React.createClass({
 		this.forceUpdate();
 	},
 
-	onDrag: function(e) {
+	onChange: function(e) {
 		this.props.model.updateStyle(e);
 		this.props.model.trigger('change');
 	},
@@ -53,14 +56,14 @@ var FreeForm = React.createClass({
 		// or events bubbled out and pushed back through the UI
 
 		return (
-			<DraggableElement
+			<FreeFormBox
 				style={model.style}
-				doesntDragSelf={true}
-				onDrag={this.onDrag}
+				onChange={this.onChange}
 				className="strt-slide-comp"
 				containerScale={this.props.containerScale}
-				dangerouslySetInnerHTML={{__html: model.content}}
-			/>
+				doesntDragSelf={true}>
+				<div dangerouslySetInnerHTML={{__html: model.content}} />
+			</FreeFormBox>
 		);
 	}
 });

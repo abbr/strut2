@@ -47,7 +47,7 @@ var FreeFormBox = React.createClass({
 
 	_renderResizeControl: function(d) {
 		return (
-			<ResizeControl
+			<DeltaDragControl
 				key={d}
 				onDeltaDrag={this.onDeltaDrag}
 				onDeltaDragStart={this.onDeltaDragStart}

@@ -36,6 +36,7 @@ var FreeFormBox = React.createClass({
 
 	onResize: function(e) {
 		if (this.props.onChange) {
+			// console.log(e);
 			this.props.onChange({
 				left: e.left != null ? e.left : this.props.style.left,
 				top: e.top != null ? e.top : this.props.style.top,
@@ -43,6 +44,10 @@ var FreeFormBox = React.createClass({
 				height: e.height != null ? e.height : this.props.style.height
 			});
 		}
+	},
+
+	_onMouseDown(e) {
+		this.onMouseDown(e);
 	},
 
 	_renderResizeControl: function(d) {
@@ -61,7 +66,7 @@ var FreeFormBox = React.createClass({
 
 		return (
 			<div
-				onMouseDown={this.onMouseDown}
+				onMouseDown={this._onMouseDown}
 				className="wdgt-crop-overlay"
 				style={this.props.style}>
 				<div className="wdgt-grid-dashed-h" />

@@ -7,7 +7,8 @@ var Draggable = require('interactions/Draggable');
 var DeltaDragControl = React.createClass({
 	mixins: [Draggable],
 
-	dragStarted: function() {
+	onDragStart: function() {
+		console.log('started');
 		if (this.props.onDeltaDragStart) {
 			this.props.onDeltaDragStart();
 		}

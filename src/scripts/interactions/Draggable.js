@@ -1,31 +1,12 @@
 module.exports = {
-  componentDidUpdate: function (props, state) {
-    if (this.state.dragging && !state.dragging) {
-      document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('mouseup', this.onMouseUp);
-    } else if (!this.state.dragging && state.dragging) {
-      document.removeEventListener('mousemove', this.onMouseMove);
-      document.removeEventListener('mouseup', this.onMouseUp);
-    }
-  },
-
   componentWillUnmount: function() {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   },
 
-  getDefaultProps: function () {
-    return {
-      top: 0,
-      left: 0
-    };
-  },
-
-  getInitialState: function () {
-    return {
-      top: this.props.top,
-      left: this.props.left,
-      dragging: false
+  componentWillMount: function() {
+    this._draggable = {
+      dragging: false,
     };
   },
 
@@ -33,52 +14,54 @@ module.exports = {
     // only left mouse button
     if (e.button !== 0) return;
 
-    var computedStyle = window.getComputedStyle(this.getDOMNode());
-    var pos = {
-      top: parseInt(computedStyle.top, 10) || 0,
-      left: parseInt(computedStyle.left, 10) || 0
-    };
+    if (!this._draggable.dragging) {
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('mouseup', this.onMouseUp);
+    }
 
     if (this.onDragStart) {
       this.onDragStart();
     }
 
-    this.setState({
-      dragging: true,
-      oleft: pos.left,
-      otop: pos.top,
-      ox: e.pageX,
-      oy: e.pageY
-    });
+    var draggable = this._draggable;
+    draggable.dragging = true;
+    var computedStyle = window.getComputedStyle(this.getDOMNode());
+    draggable.oleft = parseInt(computedStyle.left, 10) || 0;
+    draggable.otop = parseInt(computedStyle.top, 10) || 0;
+    draggable.ox = e.pageX;
+    draggable.oy = e.pageY;
 
     e.stopPropagation();
     e.preventDefault();
   },
 
   onMouseUp: function (e) {
-    this.setState({dragging: false});
+    this._draggable.dragging = false;
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
     e.preventDefault();
   },
 
   onMouseMove: function (e) {
-    if (!this.state.dragging) return;
-    var scale = this.props.containerScale || 1;
+    var draggable = this._draggable;
+    if (!draggable.dragging) return;
 
-    var dx = (e.pageX - this.state.ox) / scale;
-    var dy = (e.pageY - this.state.oy) / scale;
+    var scale = this.props.containerScale || 1;
+    var dx = (e.pageX - draggable.ox) / scale;
+    var dy = (e.pageY - draggable.oy) / scale;
 
     if (!this.props.doesntDragSelf) {
       this.setState({
-        left: this.state.oleft + dx,
-        top: this.state.otop + dy
+        left: draggable.oleft + dx,
+        top: draggable.otop + dy
       });
     }
 
     if (this.onDrag) {
       this.onDrag({
-        left: this.state.oleft + dx,
-        top: this.state.otop + dy,
+        left: draggable.oleft + dx,
+        top: draggable.otop + dy,
         dx: dx,
         dy: dy
       });

@@ -40,7 +40,7 @@ var FreeForm = React.createClass({
 		// and set it on the model
 	},
 
-	render: function() {	
+	render: function() {
 		var model = this.props.model;
 		// model has all the attributes of the node on it... we should pull
 		// those out an apply them to ourself

@@ -27,7 +27,6 @@ var FreeForm = React.createClass({
 
 	onChange: function(e) {
 		this.props.model.updateStyle(e);
-		this.props.model.trigger('change');
 	},
 
 	shouldComponentUpdate: function() {

@@ -26,6 +26,15 @@ var self = {
 		return map;
 	},
 
+	makeSame(prototype, other) {
+		Object.keys(other).forEach((k) => {
+			other[k] = prototype[k];
+		});
+		Object.keys(prototype).forEach((k) => {
+			other[k] = prototype[k];
+		});
+	},
+
 	camelize: function(splitter, str) {
 		var parts = str.split(splitter);
 		if (parts.length == 1) {

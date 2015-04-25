@@ -1,8 +1,9 @@
 'use strict';
 
+var _ = require('lodash');
 var Css = require('html/Css');
 var Events = require('events/Events');
-var _ = require('lodash');
+var UpdateStyle = require('./actions/UpdateStyle');
 
 var key = 0;
 function Component(node, options) {
@@ -25,20 +26,26 @@ function Component(node, options) {
 }
 
 Component.prototype = {
-	addClass: function(klass) {
+	addClass(klass) {
 
 	},
 
-	updateStyle: function(newStyle) {
+	updateStyle(newStyle) {
 		_.assign(this.style, newStyle);
+    this.trigger('change');
+		// UpdateStyle(this, newStyle);
 	},
 
-	replaceStyle: function(newStyle) {
+	updateStyleUndoable(newStyle) {
+		UpdateStyle(this, newStyle);
+	},
+
+	replaceStyle(newStyle) {
 		this.style = newStyle;
 	},
 
-	replaceContent: function() {
-		
+	replaceContent() {
+
 	}
 };
 

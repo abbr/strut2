@@ -4,7 +4,7 @@ var _ = require('lodash');
 
 // Action to be added to undo history
 class UpdateStyle {
-  construct(component, newStyle) {
+  constructor(component, newStyle) {
     this._oldStyle = _.clone(component.style);
     this._newStyle = newStyle;
   }

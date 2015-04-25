@@ -4,9 +4,10 @@ Events from control points get bubbled up to outside event handlers instead
 of being handled by the box itself.
 */
 
-var React = require('react/addons');
-var Draggable = require('interactions/Draggable');
+var Css = require('html/Css');
 var DeltaDragControl = require('./DeltaDragControl');
+var Draggable = require('interactions/Draggable');
+var React = require('react/addons');
 var Resizable = require('interactions/Resizable');
 
 var resizeDirections = [
@@ -23,7 +24,7 @@ var resizeDirections = [
 var FreeFormBox = React.createClass({
 	mixins: [Draggable, Resizable],
 
-	onDrag: function(e) {
+	onDrag(e) {
 		if (this.props.onChange) {
 			this.props.onChange({
 				left: e.left,
@@ -34,9 +35,8 @@ var FreeFormBox = React.createClass({
 		}
 	},
 
-	onResize: function(e) {
+	onResize(e) {
 		if (this.props.onChange) {
-			// console.log(e);
 			this.props.onChange({
 				left: e.left != null ? e.left : this.props.style.left,
 				top: e.top != null ? e.top : this.props.style.top,
@@ -47,10 +47,13 @@ var FreeFormBox = React.createClass({
 	},
 
 	_onMouseDown(e) {
+		if (this.props.onMouseDown) {
+			this.props.onMouseDown(e);
+		}
 		this.onMouseDown(e);
 	},
 
-	_renderResizeControl: function(d) {
+	_renderResizeControl(d) {
 		return (
 			<DeltaDragControl
 				key={d}
@@ -61,13 +64,18 @@ var FreeFormBox = React.createClass({
 		);
 	},
 
-	render: function() {
-		var resizeControls = resizeDirections.map(this._renderResizeControl);
+	render() {
+		if (this.props.selected) {
+			var resizeControls = resizeDirections.map(this._renderResizeControl);
+		}
 
 		return (
 			<div
 				onMouseDown={this._onMouseDown}
-				className="wdgt-crop-overlay"
+				className={Css.toClassString({
+					"wdgt-crop-overlay": true,
+					selected: this.props.selected,
+				})}
 				style={this.props.style}>
 				<div className="wdgt-grid-dashed-h" />
 				<div className="wdgt-grid-dashed-v" />

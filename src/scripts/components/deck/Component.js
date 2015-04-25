@@ -5,9 +5,9 @@ var Css = require('html/Css');
 var Events = require('events/Events');
 var UpdateStyle = require('./actions/UpdateStyle');
 
-var key = 0;
+var id = 0;
 function Component(node, options) {
-	this.key = ++key;
+	this.id = ++id;
 	_.extend(this, Events);
 	if (typeof node === 'string') {
 		options = options || {};
@@ -46,6 +46,12 @@ Component.prototype = {
 
 	replaceContent() {
 
+	},
+
+	setSelected(val) {
+		if (val === this.selected) return;
+		this.selected = val;
+		this.trigger('change');
 	}
 };
 

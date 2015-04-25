@@ -1,30 +1,33 @@
 var Util = require('Util');
 var PureSlide = require('components/deck/Slide');
 
-function Slide(appSlideState, pureSlide) {
-	this.pureSlide = pureSlide || new PureSlide();
+class Slide {
+	constructor(pureSlide, appSlideState) {
+		this.pureSlide = pureSlide || new PureSlide();
+		this.selectedComponents = [];
 
-	_.extend(this, appSlideState);
-}
+		_.extend(this, appSlideState);
+	}
 
-Slide.prototype = {
 	get id() {
 		return this.pureSlide.id;
-	},
+	}
 
 	get components() {
 		return this.pureSlide.components;
-	},
+	}
 
-	getSelectedComponents: function() {
-		
-	},
+	selectComponent(comp) {
+		this.selectedComponents.forEach((c) => c.setSelected(false));
+		this.selectedComponents = [comp];
+		comp.setSelected(true);
+	}
 
-	selectComponent: function(comp) {
+	multiSelectComponents(boundingBox) {
 
-	},
+	}
 
-	addComponent: function(type, options) {
+	addComponent(type, options) {
 		this.pureSlide.addComponent(type, options);
 	}
 };

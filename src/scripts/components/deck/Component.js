@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Css = require('html/Css');
 var Events = require('events/Events');
 var UpdateStyle = require('./actions/UpdateStyle');
+var SetSelected = require('./actions/SetSelected');
 
 var id = 0;
 function Component(node, options) {
@@ -33,7 +34,6 @@ Component.prototype = {
 	updateStyle(newStyle) {
 		_.assign(this.style, newStyle);
     this.trigger('change');
-		// UpdateStyle(this, newStyle);
 	},
 
 	updateStyleUndoable(newStyle) {
@@ -52,6 +52,10 @@ Component.prototype = {
 		if (val === this.selected) return;
 		this.selected = val;
 		this.trigger('change');
+	},
+
+	setSelectedUndoable(val) {
+		SetSelected(this, val);
 	}
 };
 

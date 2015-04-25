@@ -24,6 +24,10 @@ var resizeDirections = [
 var FreeFormBox = React.createClass({
 	mixins: [Draggable, Resizable],
 
+	componentWillMount() {
+		this._lastClick = 0;
+	},
+
 	onDrag(e) {
 		if (this.props.onChange) {
 			this.props.onChange({
@@ -43,6 +47,12 @@ var FreeFormBox = React.createClass({
 				width: e.width != null ? e.width : this.props.style.width,
 				height: e.height != null ? e.height : this.props.style.height
 			});
+		}
+	},
+
+	onClick(e) {
+		if (this.props.onClick) {
+			this.props.onClick(e);
 		}
 	},
 
@@ -73,7 +83,7 @@ var FreeFormBox = React.createClass({
 		return (
 			<div
 				onMouseDown={this._onMouseDown}
-				onClick={this.props.onClick}
+				onClick={this.onClick}
 				className={Css.toClassString({
 					"wdgt-crop-overlay": true,
 					selected: this.props.selected,

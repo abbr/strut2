@@ -8,6 +8,10 @@ var FreeFormBox = require('widgets/FreeFormBox.jsx');
 require('components/SlideComps.css');
 
 var FreeForm = React.createClass({
+	getInitialState() {
+		return {};
+	},
+
 	componentWillMount: function() {
 		this.props.model.on('change', this.onModelUpdated, this);
 	},
@@ -30,6 +34,18 @@ var FreeForm = React.createClass({
 
 	onClick(e) {
 		e.stopPropagation();
+
+		if (e.timeStamp - this._lastClick < 500) {
+			this.onDoubleClick();
+		}
+
+		this._lastClick = e.timeStamp;
+	},
+
+	onDoubleClick() {
+		this.setState({
+			editable: true,
+		})
 	},
 
 	shouldComponentUpdate: function() {
@@ -42,14 +58,16 @@ var FreeForm = React.createClass({
 		return (
 			<FreeFormBox
 				style={model.style}
-				selected={model.selected}
+				selected={model.selected && !this.state.editable}
 				onChange={this.onChange}
 				onClick={this.onClick}
 				onMouseDown={this.onMouseDown}
 				className="strt-slide-comp"
 				containerScale={this.props.containerScale}
 				doesntDragSelf={true}>
-				<div dangerouslySetInnerHTML={{__html: model.content}} />
+				<div
+					contentEditable={this.state.editable}
+					dangerouslySetInnerHTML={{__html: model.content}} />
 			</FreeFormBox>
 		);
 	}

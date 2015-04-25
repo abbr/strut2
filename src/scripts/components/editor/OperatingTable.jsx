@@ -54,6 +54,13 @@ var OperatingTable = React.createClass({
 		});
 	},
 
+	onClick() {
+		var slide = this.props.deck.getSelectedSlide();
+		if (slide) {
+			slide.unselectComponents();
+		}
+	},
+
 	getInitialState: function() {
 		return {};
 	},
@@ -90,7 +97,10 @@ var OperatingTable = React.createClass({
 		}
 
 		return (
-			<div className="strt-operating-table" ref="rootEl">
+			<div
+				className="strt-operating-table"
+				ref="rootEl"
+				onClick={this.onClick}>
 				<div className="strt-ot-slide" style={this.state.otsStyle}>
 					{components}
 				</div>

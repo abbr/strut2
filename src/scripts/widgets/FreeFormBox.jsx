@@ -59,6 +59,7 @@ var FreeFormBox = React.createClass({
 				key={d}
 				onDeltaDrag={this.onDeltaDrag}
 				onDeltaDragStart={this.onDeltaDragStart}
+				onClick={this.props.onClick}
 				direction={d}
 				className={"wdgt-resize-point wdgt-" + d} />
 		);
@@ -72,6 +73,7 @@ var FreeFormBox = React.createClass({
 		return (
 			<div
 				onMouseDown={this._onMouseDown}
+				onClick={this.props.onClick}
 				className={Css.toClassString({
 					"wdgt-crop-overlay": true,
 					selected: this.props.selected,

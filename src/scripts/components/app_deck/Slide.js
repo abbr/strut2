@@ -18,13 +18,18 @@ class Slide {
 	}
 
 	selectComponent(comp) {
-		this.selectedComponents.forEach((c) => c.setSelected(false));
+		this.selectedComponents.forEach((c) => c.setSelectedUndoable(false));
 		this.selectedComponents = [comp];
-		comp.setSelected(true);
+		comp.setSelectedUndoable(true);
 	}
 
 	multiSelectComponents(boundingBox) {
 
+	}
+
+	unselectComponents() {
+		this.selectedComponents.forEach((c) => c.setSelectedUndoable(false));
+		this.selectedComponents = [];
 	}
 
 	addComponent(type, options) {

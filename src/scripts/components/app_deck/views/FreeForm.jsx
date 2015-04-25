@@ -28,6 +28,10 @@ var FreeForm = React.createClass({
 		this.props.slide.selectComponent(this.props.model);
 	},
 
+	onClick(e) {
+		e.stopPropagation();
+	},
+
 	shouldComponentUpdate: function() {
 		return false;
 	},
@@ -40,6 +44,7 @@ var FreeForm = React.createClass({
 				style={model.style}
 				selected={model.selected}
 				onChange={this.onChange}
+				onClick={this.onClick}
 				onMouseDown={this.onMouseDown}
 				className="strt-slide-comp"
 				containerScale={this.props.containerScale}

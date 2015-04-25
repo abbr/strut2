@@ -8,7 +8,6 @@ var DeltaDragControl = React.createClass({
 	mixins: [Draggable],
 
 	onDragStart: function() {
-		console.log('started');
 		if (this.props.onDeltaDragStart) {
 			this.props.onDeltaDragStart();
 		}
@@ -26,8 +25,10 @@ var DeltaDragControl = React.createClass({
 
 	render: function() {
 		return (
-		<div className={this.props.className}
-			onMouseDown={this.onMouseDown}>
+		<div
+			className={this.props.className}
+			onMouseDown={this.onMouseDown}
+			onClick={this.props.onClick}>
 			{this.props.children}
 		</div>);
 	}

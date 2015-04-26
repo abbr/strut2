@@ -30,22 +30,28 @@ var FreeFormBox = React.createClass({
 
 	onDrag(e) {
 		if (this.props.onChange) {
+			var model = this.props.model;
 			this.props.onChange({
 				left: e.left,
 				top: e.top,
-				width: this.props.style.width,
-				height: this.props.style.height
+				width: model.style.width,
+				height: model.style.height
 			});
 		}
 	},
 
+	onDragStart() {
+		return this.props.model.selected && !this.props.model.editing;
+	},
+
 	onResize(e) {
 		if (this.props.onChange) {
+			var model = this.props.model;
 			this.props.onChange({
-				left: e.left != null ? e.left : this.props.style.left,
-				top: e.top != null ? e.top : this.props.style.top,
-				width: e.width != null ? e.width : this.props.style.width,
-				height: e.height != null ? e.height : this.props.style.height
+				left: e.left != null ? e.left : model.style.left,
+				top: e.top != null ? e.top : model.style.top,
+				width: e.width != null ? e.width : model.style.width,
+				height: e.height != null ? e.height : model.style.height
 			});
 		}
 	},
@@ -70,13 +76,15 @@ var FreeFormBox = React.createClass({
 				onDeltaDrag={this.onDeltaDrag}
 				onDeltaDragStart={this.onDeltaDragStart}
 				onClick={this.props.onClick}
+				containerScale={this.props.containerScale}
 				direction={d}
 				className={"wdgt-resize-point wdgt-" + d} />
 		);
 	},
 
 	render() {
-		if (this.props.selected) {
+		var model = this.props.model;
+		if (model.selected && !model.editing) {
 			var resizeControls = resizeDirections.map(this._renderResizeControl);
 		}
 
@@ -86,11 +94,10 @@ var FreeFormBox = React.createClass({
 				onClick={this.onClick}
 				className={Css.toClassString({
 					"wdgt-crop-overlay": true,
-					selected: this.props.selected,
+					selected: model.selected && !model.editing,
+					editing: model.editing,
 				})}
-				style={this.props.style}>
-				<div className="wdgt-grid-dashed-h" />
-				<div className="wdgt-grid-dashed-v" />
+				style={model.style}>
 				{resizeControls}
 				{this.props.children}
 			</div>

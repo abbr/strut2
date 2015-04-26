@@ -43,9 +43,7 @@ var FreeForm = React.createClass({
 	},
 
 	onDoubleClick() {
-		this.setState({
-			editable: true,
-		})
+		this.props.slide.editComponent(this.props.model);
 	},
 
 	shouldComponentUpdate: function() {
@@ -57,8 +55,7 @@ var FreeForm = React.createClass({
 
 		return (
 			<FreeFormBox
-				style={model.style}
-				selected={model.selected && !this.state.editable}
+				model={model}
 				onChange={this.onChange}
 				onClick={this.onClick}
 				onMouseDown={this.onMouseDown}
@@ -66,7 +63,7 @@ var FreeForm = React.createClass({
 				containerScale={this.props.containerScale}
 				doesntDragSelf={true}>
 				<div
-					contentEditable={this.state.editable}
+					contentEditable={model.editing}
 					dangerouslySetInnerHTML={{__html: model.content}} />
 			</FreeFormBox>
 		);

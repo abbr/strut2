@@ -54,6 +54,12 @@ Component.prototype = {
 		this.trigger('change');
 	},
 
+	setEditing(val) {
+		if (val === this.editing) return;
+		this.editing = val;
+		this.trigger('change');
+	},
+
 	setSelectedUndoable(val) {
 		SetSelected(this, val);
 	}

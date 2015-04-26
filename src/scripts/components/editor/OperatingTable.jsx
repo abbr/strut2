@@ -58,6 +58,7 @@ var OperatingTable = React.createClass({
 		var slide = this.props.deck.getSelectedSlide();
 		if (slide) {
 			slide.unselectComponents();
+			slide.stopEditingComponents();
 		}
 	},
 

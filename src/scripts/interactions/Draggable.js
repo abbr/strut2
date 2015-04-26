@@ -14,13 +14,14 @@ module.exports = {
     // only left mouse button
     if (e.button !== 0) return;
 
+    if (this.onDragStart) {
+      var start = this.onDragStart();
+      if (start === false) return;
+    }
+
     if (!this._draggable.dragging) {
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
-    }
-
-    if (this.onDragStart) {
-      this.onDragStart();
     }
 
     var draggable = this._draggable;
@@ -32,7 +33,6 @@ module.exports = {
     draggable.oy = e.pageY;
 
     e.stopPropagation();
-    e.preventDefault();
   },
 
   onMouseUp: function (e) {
@@ -40,7 +40,6 @@ module.exports = {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
-    e.preventDefault();
   },
 
   onMouseMove: function (e) {
@@ -68,6 +67,5 @@ module.exports = {
     }
 
     e.stopPropagation();
-    e.preventDefault();
   }
 };

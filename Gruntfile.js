@@ -28,7 +28,7 @@ module.exports = function (grunt) {
 
     'webpack-dev-server': {
       options: {
-        port: 8000,
+        port: process.env.port || 8000,
         webpack: webpackDevConfig,
         publicPath: '/',
         contentBase: './<%= pkg.src %>/',
@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 
     'webpack-experiment-server': {
       options: {
-        port: 8000,
+        port: process.env.port || 8000,
         webpack: webpackExperimentConfig,
         publicPath: '/',
         contentBase: './<%= pkg.src %>/',
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 
     connect: {
       options: {
-        port: 8000
+        port: process.env.port || 8000
       },
 
       dist: {
